@@ -35,6 +35,10 @@ const handleLoginFormSubmit = e=>{
       email:"",
       password:""
     })
+    API.getCurrentUser().then(res=>{
+      console.log(res.data);
+      setCurrentUser(res.data.user);
+    })
   }).catch(err=>{
     alert("login failed")
   })
