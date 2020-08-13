@@ -1,6 +1,6 @@
 const axios = require("axios")
-const urlPrefix = "http://localhost:8080"
-// const urlPrefix = "https://fish-tank-api.herokuapp.com"
+// const urlPrefix = "http://localhost:8080"
+const urlPrefix = "https://fish-tank-api.herokuapp.com"
 const API= {
     getAllFish:function(){
         return axios.get(`${urlPrefix}/api/fishes`)
