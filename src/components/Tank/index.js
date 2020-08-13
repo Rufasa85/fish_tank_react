@@ -5,6 +5,7 @@ import API from "../../utils/API"
 import FishForm from "../FishForm"
 export default function Tank() {
     const [fishes, setFishes] = useState([])
+    const [showFishForm, setShowFishForm] = useState(false)
     const [fishFormData, setFishFormData] = useState({
         color: "#bada55",
         name: "",
@@ -36,6 +37,7 @@ export default function Tank() {
                 name: "",
                 width: 0
             })
+            setShowFishForm(false);
         })
     }
 
@@ -56,11 +58,12 @@ export default function Tank() {
     return (
         <>
             <h1>My fishies, let me show them to you</h1>
-            <FishForm formData={fishFormData} handleChange={handleFishFormChange} saveFish={saveFishButton} />
+            {showFishForm?<FishForm formData={fishFormData} handleChange={handleFishFormChange} saveFish={saveFishButton} />:<button onClick={()=>setShowFishForm(true)}>Add Fish</button>}
             <button onClick={feedFish}>Feed Fish</button>
             <div className="Tank">
                 {fishes.map(fish => <Fish color={fish.color} name={fish.name} width={fish.width} />)}
             </div>
+            <div className="seaFloor"></div>
         </>
     )
 }

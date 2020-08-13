@@ -1,0 +1,7 @@
+.NavBar {
+    display:flex;
+    height:10vh;
+    justify-content: space-between;
+    align-items: center;
+    background:linear-gradient(120deg, salmon 0%, salmon 50%, chartreuse 50%, chartreuse 100%);
+}
