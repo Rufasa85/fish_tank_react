@@ -3,11 +3,10 @@ import Tank from './pages/Tank';
 import NavBar from './components/NavBar';
 import "./App.css"
 import API from './utils/API';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Switch, Route,useHistory } from 'react-router-dom'
 import Home from './pages/Home';
 import FishDetail from './pages/FishDetail';
-
-
+import Profile from './pages/Profile';
 
 function App() {
   const [loginFormData, setLoginFormData] = useState({
@@ -15,13 +14,19 @@ function App() {
     password: ""
   })
   const [currentUser, setCurrentUser] = useState()
-
+ 
   useEffect(() => {
     API.getCurrentUser().then(res => {
       console.log(res.data);
       setCurrentUser(res.data.user);
     })
   }, [])
+ 
+    const logout = ()=>{
+        API.logout().then(res=>{
+          setCurrentUser();
+        })
+    }
 
   const loginInputChange = event => {
     const { name, value } = event.target;
@@ -48,16 +53,19 @@ function App() {
   }
   return (<>
     <Router>
-      <NavBar currentUser={currentUser} loginFormData={loginFormData} inputChange={loginInputChange} loginSubmit={handleLoginFormSubmit} />
+      <NavBar currentUser={currentUser} logout={logout} loginFormData={loginFormData} inputChange={loginInputChange} loginSubmit={handleLoginFormSubmit} />
       <Switch>
         <Route exact path = "/">
-          <Home/>
+          <Home currentUser={currentUser}/>
+        </Route>
+        <Route path ="/profile">
+          <Profile currentUser={currentUser}/>
         </Route>
         <Route path ="/tank/:id">
-          <Tank />
+          <Tank  currentUser={currentUser}/>
         </Route>
         <Route path ="/fish/:id">
-          <FishDetail/>
+          <FishDetail currentUser={currentUser}/>
         </Route>
       </Switch>
     </Router>

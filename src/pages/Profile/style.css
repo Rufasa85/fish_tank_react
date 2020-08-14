@@ -1,0 +1,4 @@
+.Profile .userTanks, .Profile .userFishCards {
+    display: flex;
+    flex-wrap: wrap;
+}

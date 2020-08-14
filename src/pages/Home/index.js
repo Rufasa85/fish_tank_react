@@ -3,7 +3,7 @@ import TankThumbnail from '../../components/TankThumbnail'
 import "./style.css"
 import API from '../../utils/API'
 
-export default function Home() {
+export default function Home(props) {
     const [tanks, setTanks] = useState([])
     const [newTankName,setNewTankName] = useState("");
 
@@ -25,11 +25,11 @@ export default function Home() {
 
     return (
         <div className="Home">
-            <form onSubmit = {saveTank}>
+            {props.currentUser?(<form onSubmit = {saveTank}>
                 <label>New Tank name:</label>
                 <input name="newTankName" type="text" value={newTankName} onChange={(e)=>setNewTankName(e.target.value)}/>
                 <button>Save Tank</button>
-            </form>
+            </form>):null}
             {tanks.map(tank=><TankThumbnail key = {tank.id} id={tank.id} name={tank.name} fish= {tank.Fishes}/>)}
         </div>
     )

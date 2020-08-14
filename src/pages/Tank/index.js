@@ -4,10 +4,12 @@ import "./style.css"
 import Fish from "../../components/Fish"
 import API from "../../utils/API"
 import FishForm from "../../components/FishForm"
-export default function Tank() {
+export default function Tank(props) {
     const [fishes, setFishes] = useState([])
     const [showFishForm, setShowFishForm] = useState(false)
     const [tankName, setTankName] = useState("")
+    const [tankUserId, setTankUserId] = useState(0)
+    const [isEditable,setIsEditable]= useState(false);
     const [fishFormData, setFishFormData] = useState({
         color: "#bada55",
         name: "",
@@ -20,9 +22,18 @@ export default function Tank() {
         API.getThisTankFish(params.id).then(res => {
             console.log(res.data);
             setFishes(res.data.Fishes);
-            setTankName(res.data.name)
+            setTankName(res.data.name);
+            setTankUserId(res.data.UserId);
         })
     }, [])
+
+    useEffect(()=>{
+        if(props.currentUser&&tankUserId===props.currentUser.id){
+            setIsEditable(true);
+        } else {
+            setIsEditable(false)
+        }
+    },[props.currentUser, tankUserId])
 
     const handleFishFormChange = event => {
         const { name, value } = event.target;
@@ -68,8 +79,8 @@ export default function Tank() {
     return (
         <>
             <h1>My fishies, let me show them to you from tank {tankName}</h1>
-            {showFishForm?<FishForm formData={fishFormData} handleChange={handleFishFormChange} saveFish={saveFishButton} />:<button onClick={()=>setShowFishForm(true)}>Add Fish</button>}
-            <button onClick={feedFish}>Feed Fish</button>
+            {isEditable?showFishForm?<FishForm formData={fishFormData} handleChange={handleFishFormChange} saveFish={saveFishButton} />:<button onClick={()=>setShowFishForm(true)}>Add Fish</button>:null}
+            {isEditable?<button onClick={feedFish}>Feed Fish</button>:null}
             <div className="Tank">
                 {fishes.map(fish => <Fish color={fish.color} name={fish.name} width={fish.width} />)}
             </div>
